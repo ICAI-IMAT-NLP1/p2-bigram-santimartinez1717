@@ -60,8 +60,15 @@ def char_to_index(alphabet: str, start_token: str, end_token: str) -> Dict[str, 
         Dict[str, int]: A dictionary mapping each character, including start and end tokens, to an index.
     """
     # Create a dictionary with start token at the beginning and end token at the end
-    # TODO
-    char_to_idx: Dict[str, int] = None
+    
+
+    char_to_idx = {start_token: 0}
+
+
+    for i, letter in enumerate(alphabet, start = 1):
+        char_to_idx[letter] = i
+
+    char_to_idx[end_token] =  len(alphabet)+1
 
     return char_to_idx
 
@@ -77,8 +84,8 @@ def index_to_char(char_to_index: Dict[str, int]) -> Dict[int, str]:
         Dict[int, str]: A dictionary mapping each index back to its corresponding character.
     """
     # Reverse the char_to_index mapping
-    # TODO
-    idx_to_char: Dict[int, str] = None
+    idx_to_char: Dict[int, str] = {index: char for char, index in char_to_index.items()}
+
 
     return idx_to_char
 
