@@ -111,11 +111,17 @@ def count_bigrams(
     """
 
     # Initialize a 2D tensor for counting bigrams
-    # TODO
-    bigram_counts: torch.Tensor = None
+    n = len(char_to_idx) 
+    bigram_counts: torch.Tensor = torch.zeros((n, n))
+
 
     # Iterate over each bigram and update the count in the tensor
-    # TODO
+    for bigram in bigrams:
+        i = char_to_idx[bigram[0]]
+        j = char_to_idx[bigram[1]]
+        bigram_counts[i,j] += 1
+
+    return bigram_counts
 
     return bigram_counts
 
@@ -148,7 +154,7 @@ if __name__ == "__main__":
     file_path: str = "data/nombres_raw.txt"
 
     # Define the alphabet (ensure it covers all characters in your data)
-    alphabet: str = "abcdefghijklmnopqrstuvwxyz "
+    alphabet: str = "abcdefghijklmnñopqrstuvwxyzç' "
 
     start_token: str = "-"
     end_token: str = "."
