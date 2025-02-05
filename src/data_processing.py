@@ -123,7 +123,6 @@ def count_bigrams(
 
     return bigram_counts
 
-    return bigram_counts
 
 
 def plot_bigram_counts(bigram_counts: torch.Tensor, idx_to_char: Dict):
