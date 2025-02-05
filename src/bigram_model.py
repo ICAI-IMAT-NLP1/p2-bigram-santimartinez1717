@@ -22,8 +22,19 @@ def bigrams_count_to_probabilities(
         to the row index.
     """
     # Normalize each row to sum to 1, converting counts to probabilities, remember to add smooth_factor
-    # TODO
-    return None
+    # Add the smoothing factor to all bigram counts
+    smoothed_counts = bigram_counts + smooth_factor
+
+    # Compute the sum of each row
+    row_sums = smoothed_counts.sum(dim=1, keepdim=True)
+
+    # Avoid division by zero (when a row sum is zero)
+    row_sums[row_sums == 0] = 1  # To prevent division by zero
+
+    # Normalize by dividing each element by the sum of its row
+    probabilities = smoothed_counts / row_sums
+
+    return probabilities
 
 
 
