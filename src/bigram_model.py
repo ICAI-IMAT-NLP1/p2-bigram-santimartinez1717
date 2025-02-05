@@ -63,16 +63,22 @@ def calculate_neg_mean_log_likelihood(
         float. The negative mean log likelihood of the list of words.
     """
     # Initialize total log likelihood
-    # TODO
-    total_log_likelihood: torch.tensor = None
+    total_log_likelihood: torch.tensor = torch.tensor(0.0)
+
 
     # Calculate the log likelihood for each word and accumulate
-    # TODO
+    for word in words:
+        log_likelihood = calculate_log_likelihood(
+            word, bigram_probabilities, char_to_index, start_token, end_token
+        )
+        total_log_likelihood += log_likelihood
 
-    # Calculate and return the negative mean log likelihood
-    # TODO
-    mean_log_likelihood: float = None
-    return mean_log_likelihood
+    # Calculate mean log likelihood
+    mean_log_likelihood = total_log_likelihood / len(words)
+
+    # Return the negative mean log likelihood
+    return -mean_log_likelihood.item()
+
 
 
 def sample_next_character(
@@ -173,16 +179,26 @@ def calculate_log_likelihood(
     Returns:
         Tensor. The log likelihood of the word.
     """
-    # Add start and end characters to the word
-    # TODO
-    processed_word: str = None
+    # Add start and end tokens to the word
+    processed_word: str = start_token + word + end_token
 
     # Initialize log likelihood
-    # TODO
-    log_likelihood: torch.tensor = None
+    log_likelihood = torch.tensor(0.0)
 
     # Iterate through bigrams in the word and accumulate their log probabilities
-    # TODO
+    for i in range(len(processed_word) - 1):
+        # Get the indices of the current and next character
+        current_char_index = char_to_index[processed_word[i]]
+        next_char_index = char_to_index[processed_word[i + 1]]
+
+        # Retrieve the bigram probability
+        prob = bigram_probabilities[current_char_index, next_char_index]
+
+        # Add log(probability) to the log likelihood (handle log(0))
+        if prob > 0:
+            log_likelihood += torch.log(prob)
+        else:
+            log_likelihood += float('-inf')  # Log(0) -> -inf (impossible bigram)
 
     return log_likelihood
 
