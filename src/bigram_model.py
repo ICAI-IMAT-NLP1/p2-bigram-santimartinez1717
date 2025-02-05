@@ -130,12 +130,17 @@ def generate_name(
         str. A newly generated name.
     """
     # Start with the start token and an empty name
-    # TODO
-    current_char: str = None
-    generated_name: str = None
+    current_char: str = start_token
+    generated_name: str = ''
 
     # Iterate to build the name
-    # TODO
+    while current_char != end_token and len(generated_name) < max_length:
+        generated_name += current_char
+        current_char = sample_next_character(char_to_idx[current_char], bigram_probabilities, idx_to_char)
+
+    generated_name += end_token
+
+    return generated_name
 
     return generated_name
 
