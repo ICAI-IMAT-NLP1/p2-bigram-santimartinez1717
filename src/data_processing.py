@@ -26,11 +26,23 @@ def load_and_preprocess_data(
     Returns:
         List[Tuple[str, str]]. A list of bigrams, where each bigram is a tuple of two characters.
     """
+    bigrams: List[Tuple[str, str]] = []
+
     with open(filepath, "r") as file:
         lines: List[str] = file.read().splitlines()
+    
+    for line in lines:
+        
+        name = line.split()[0].lower()
+        
+        name = f'{start_token}{name}{end_token}'
+        print(name)
+        
 
-    # TODO
-    bigrams: List[Tuple[str, str]] = None
+        bigrams.extend([(name[i], name[i+1]) for i in range(len(name) -1)])
+
+
+    
 
     return bigrams
 
